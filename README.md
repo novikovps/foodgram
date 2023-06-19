@@ -81,4 +81,4 @@ sudo docker compose exec backend python manage.py import_ingredients
 [Gunicorn]: <https://gunicorn.org>
 [Nginx]: <https://www.nginx.com>
 [PostgreSQL]: <https://www.postgresql.org>
-[Foodgram]: <https://foodgram.notformprod.ru>
+[Foodgram]: <https://foodgram.notforprod.ru>
