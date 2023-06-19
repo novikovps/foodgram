@@ -1,4 +1,4 @@
-FROM python:3.10-slim as build
+FROM python:3.10.12-slim as build
 WORKDIR /app
 COPY requirements.txt .
 RUN python -m pip install --upgrade pip
