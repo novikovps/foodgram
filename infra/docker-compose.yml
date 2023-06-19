@@ -1,0 +1,49 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:13.0-alpine
+    container_name: db
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env
+
+  frontend:
+    image: novikovps/foodgram-frontend:latest
+    container_name: frontend
+    volumes:
+      - frontend_data:/app/build/
+
+  backend:
+    image: novikovps/foodgram-backend:latest
+    restart: unless-stopped
+    container_name: backend
+    volumes:
+      - static_value:/app/static/
+      - media_value:/app/media/
+      - ../data/:/app/data/
+    depends_on:
+      - db
+    env_file:
+      - ./.env
+
+  nginx:
+    image: nginx:1.21.3-alpine
+    restart: unless-stopped
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ../docs/:/usr/share/nginx/html/api/docs/
+      - frontend_data:/usr/share/nginx/html/
+      - static_value:/var/html/static/
+      - media_value:/var/html/media/
+    depends_on:
+      - backend
+
+volumes:
+  postgresql_data:
+  media_value:
+  static_value:
+  frontend_data:
